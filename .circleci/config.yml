@@ -1,0 +1,28 @@
+version: 2
+jobs:
+  info:
+    docker:
+      - image: microsoft/dotnet:2.1-sdk
+    steps:
+      - checkout
+      - run:
+          name: dotnet-version
+          command: 'dotnet --info'
+  build:
+    docker:
+      - image: microsoft/dotnet:2.1-sdk
+    steps:
+      - checkout
+      - run:
+          name: restore_nuget
+          command: 'dotnet restore NethereumChain2.sln'
+      - run:
+          name: build
+          command: 'dotnet build NethereumChain2.sln'
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - info
+      - build
